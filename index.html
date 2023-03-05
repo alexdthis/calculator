@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Basic Four Function Calculator</title>
+        <link rel="stylesheet" href="./styles.css">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="top_half">
+                <div class="running_total"></div>
+                <div class="button_output"></div>
+            </div>
+            <div class="bottom_half">
+                <div class="numpad_clear_negative">
+                    <div class="clear_negative">
+                        <div id="bigger_key">C</div>
+                        <div id="bigger_key">(-)</div>
+                    </div>
+                    <div class="keys_789">
+                        <div id="key">7</div>
+                        <div id="key">8</div>
+                        <div id="key">9</div>
+                    </div>
+                    <div class="keys_456">
+                        <div id="key">4</div>
+                        <div id="key">5</div>
+                        <div id="key">6</div>
+                    </div>
+                    <div class="keys_123">
+                        <div id="key">1</div>
+                        <div id="key">2</div>
+                        <div id="key">3</div>
+                    </div>
+                    <div class="keys_0decimal">
+                        <div id="key">Empty Space</div>
+                        <div id="key">0</div>
+                        <div id="key">.</div>
+                    </div>
+                </div>
+                <div class="operators">
+                    <div id="key">+</div>
+                    <div id="key">-</div>
+                    <div id="key">x</div>
+                    <div id="key">/</div>
+                    <div id="key">=</div>
+                </div>
+            </div>
+        </div>
+        <script src="./calc.js"></script>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+Requirements-
+
+1. Needs to take in two numbers and an expression and display them on the screen. It will emulate a basic four function calculator.
+
+2. Needs to be able evaluate the final expression once the calculate button is pressed
+and then display the result onto the screen.
+
+3. Needs to work with the four basic operators. Optional: have decimal input.
+
+4. Order of operations will not be a factor in this application since the calculator will not
+be able to accept a string of numbers.
+
+Workflow:
+
+1. Create the basic button layout via html and css, 16 buttons for digits 0-9, the four operators, the clear button, and a calculate button.
+
+2. Create a function that will evaluate the numbers based on the given operands and operators. The final expression to be given to this function might be an array that contains one character each. 
+
+3. To check for operator validity, the function might check for the correct characters in the
+correct places (e.g. a correct array will look like this: ['2', '-', '10'].) If you enter a plus where a number may be expected or a number will a plus is expected, the array will not be populated. This needs a function to check for that.
+
+4. The application needs to keep a running total and output it to the page. The total will be used as the first number in the length three array mentioned earlier.
+
+5. There should be a clear button that will allow you to clear all arrays and totals and re-initialize the appplication.

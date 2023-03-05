@@ -1,0 +1,75 @@
+body,
+.container,
+.top_half,
+.running_total,
+.button_output,
+.bottom_half,
+.numpad_clear_negative,
+.clear_negative,
+#bigger_key,
+#key,
+.keys_789,
+.keys_456,
+.keys_123,
+.keys_0decimal,
+.operators {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container {
+    flex-direction:column;
+    width:500px;
+    height:700px;
+}
+
+.top_half {
+    flex-direction:column;
+    background-color:gray;
+    min-width:100%;
+    padding:5px;
+    border:1px;
+    border-style:solid;
+    border-color:black;
+}
+
+.running_total,
+.button_output {
+    background:white;
+    border:1px;
+    border-style:solid;
+    border-color:black;
+    min-height:30px;
+    min-width:100%;
+
+}
+
+#key {
+    min-width:20px;
+    min-height:20px;
+    font-size:16px;
+}
+
+.bottom_half {
+    min-width:100%;
+}
+
+.numpad_clear_negative,
+.operators {
+    flex-direction:column;
+}
+
+.clear_negative,
+.keys_789,
+.keys_456,
+.keys_123,
+.keys_0decimal {
+    display:inline-flex;
+    min-width:100%;
+    min-height:100%;
+    border:1px;
+    border-style:solid;
+    border-color:black;
+    padding:5px;
+}
