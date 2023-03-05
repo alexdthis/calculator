@@ -1,0 +1,27 @@
+HTML pseudocode:
+
+<html>
+	head
+	
+	import styles
+	
+	body
+	
+	container for the entire calculator
+	
+	container for the output, one row for the total, one row for the current operator
+	
+	container for the buttons
+	
+	import script
+	
+<html>
+
+CSS pseudocode:
+
+	Center all elements to the center of the screen.
+	
+	Center the buttons into a grid where buttons 1-9 is a 3x3 grid with the 0 button
+	just below that. The four operators and the calculate button should be to the side
+	in a column
+	
