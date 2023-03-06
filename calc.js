@@ -3,8 +3,10 @@ let runningTotal = document.querySelector(".running_total");
 let buttonOutput = document.querySelector(".button_output");
 let firstNum = ''
 let secondNum = '';
-let 
+let internalTotal = 0;
 let inputValue = 0;
+let operatorUsed = '';
+let outputText = '';
 let operatorAlreadyInput = false;
 let inputtedOperator = false;
 const operators = {
@@ -27,31 +29,35 @@ function input(e) {
         whether or not an operator button was already pressed before */
     inputValue = e.target.value;
     operatorAlreadyInput = Object.values(operators).some(i => i === 1);
-    inputtedOperator = inputValue in operators;
+    inputtedOperator = inputValue in operators; 
 
     /* Checks if the button pressed was an operator against the operators object and that
     no other operator button was pressed. Assigns a value of 1 to the key in the operators
     object to represent that operation */
     if ((inputtedOperator) 
         && !(operatorAlreadyInput)
-        && firstNum != '') {
+        && firstNum != ''
+        && inputValue != '=') {
             operators[inputValue] = 1;
-            console.log(firstNum);
-            console.log(secondNum);
-            console.log(operators);
+            outputText = inputValue;
+            buttonOutput.textContent += outputText;
             return;
     }
     
     /* Checks if input is not an operator, an operator has not already been entered,
-        and that the first number is not empty. If these are all true, then the second
-        number starts getting populated */
+        is not a decimal, negative, equal, clear and that the first number is not empty. 
+        If these are all true, then the second number starts getting populated */
     if(firstNum != '' 
         && operatorAlreadyInput
-        && !(inputtedOperator)) {
+        && !(inputtedOperator)
+        && inputValue != '='
+        && inputValue != '(-1)'
+        && inputValue != '.'
+        && inputValue != 'C'
+        /* && firstNum.toString().includes('.') */) {
         secondNum += inputValue;
-        console.log(firstNum);
-        console.log(secondNum);
-        console.log(operators);
+        outputText = inputValue;
+        buttonOutput.textContent += outputText;
         return;
     }
 
@@ -59,19 +65,46 @@ function input(e) {
      above are skipped, then appends the number input to the firstNum string. */
     if(!(inputtedOperator)
         && inputValue !='='
-        && inputValue !='(-1)') {
+        && inputValue !='(-1)'
+        && inputValue != '.'
+        && inputValue != 'C'
+        && !(operatorAlreadyInput)) {
         firstNum += inputValue;
-        console.log(firstNum);
-        console.log(secondNum);
-        console.log(operators);
+        outputText = inputValue;
+        buttonOutput.textContent += outputText;
         return;
     }
-
+    /* makes the number negative if you inputted the operator or the second number yet */
     if(inputValue === '(-1)'
         && !(operatorAlreadyInput)
         && secondNum === '') {
             makeNegative();
             return;
+        }
+    /* supposed to add a decimal to the first number if not already inputted to it */
+    if(!(firstNum.toString().includes('.'))
+        && !(operatorAlreadyInput)
+        && inputValue != '='
+        && inputValue != '(-1)'
+        && inputValue != 'C'
+        && !(operatorAlreadyInput)
+        && !(internalTotal)) {
+        firstNum += inputValue;
+        outputText = inputValue;
+        buttonOutput.textContent += outputText;
+        return;
+    }
+
+    /* supposed to add a decimal if not already inputted to the second number */
+    if(!(secondNum.toString().includes('.'))
+        && !(inputtedOperator)
+        && inputValue != '='
+        && inputValue != '(-1)'
+        && inputValue != 'C'
+        && operatorAlreadyInput) {
+            secondNum += inputValue;
+            outputText = inputValue;
+            buttonOutput.textContent += outputText;
         }
 
     if((inputValue === '='
@@ -80,36 +113,50 @@ function input(e) {
         ||
         (inputValue === '='
         && firstNum != ''
-        && secondNum!= '')) {
-            evaulate();
+        && secondNum!= ''
+        && operatorAlreadyInput)) {
+            evaluate();
             return;
         }
     return;
-    /* console.log(e.target.value); */
 }
 
 function evaluate() {
     firstNum = Number(firstNum);
     secondNum = Number(secondNum);
-    operatorUsed = Object.keys(operators).filter(key => operators[key] === 1)[0];
+    if (operatorAlreadyInput) {
+        operatorUsed = Object.keys(operators).filter(key => operators[key] === 1)[0];
+    }
     switch(operatorUsed){
         case "+":
-            addition();
+            internalTotal = (Math.round((firstNum + secondNum) * 10000) / 10000);
+            printAndInitialization();
             break;
         case "-":
-            subtraction();
+            internalTotal = (Math.round((firstNum - secondNum) * 10000) / 10000);
+            printAndInitialization();
             break;
         case "*":
-            multiplication();
+            internalTotal = (Math.round((firstNum * secondNum) * 10000) / 10000);
+            printAndInitialization();
             break;
         case "/":
-            division();
+            internalTotal = (Math.round((firstNum / secondNum) * 10000) / 10000);
+            printAndInitialization();
+            break;
+        default:
+            internalTotal = (Math.round(firstNum * 10000) / 10000);
+            printAndInitialization;
             break;
     }
 }
-function addition(){
 
-};
-function subtraction(){};
-function division(){};
-function multiplication(){};
+function printAndInitialization() {
+    runningTotal.textContent = Math.round(internalTotal*1000) / 1000;
+    buttonOutput.textContent = Math.round(internalTotal*1000) / 1000;
+    firstNum = internalTotal.toString();
+    secondNum = '';
+    operators[operatorUsed] = 0;
+    operatorAlreadyInput = false;
+    operatorUsed = '';
+    }
