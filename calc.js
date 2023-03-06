@@ -3,10 +3,9 @@ let runningTotal = document.querySelector(".running_total");
 let buttonOutput = document.querySelector(".button_output");
 let firstNum = ''
 let secondNum = '';
-let internalTotal = 0;
+let internalTotal = '';
 let inputValue = 0;
 let operatorUsed = '';
-let outputText = '';
 let operatorAlreadyInput = false;
 let inputtedOperator = false;
 const operators = {
@@ -15,11 +14,7 @@ const operators = {
     "*" : 0,
     "/" : 0,
 };
-
-const specialKeys = {
-    "=" : 0,
-    "(-1)" : 0
-}
+runningTotal.textContent = 0;
 
 buttons.addEventListener('click', input);
 
@@ -39,8 +34,7 @@ function input(e) {
         && firstNum != ''
         && inputValue != '=') {
             operators[inputValue] = 1;
-            outputText = inputValue;
-            buttonOutput.textContent += outputText;
+            buttonOutput.textContent += inputValue;
             return;
     }
     
@@ -54,10 +48,10 @@ function input(e) {
         && inputValue != '(-1)'
         && inputValue != '.'
         && inputValue != 'C'
+        && inputValue != 'AC'
         /* && firstNum.toString().includes('.') */) {
-        secondNum += inputValue;
-        outputText = inputValue;
-        buttonOutput.textContent += outputText;
+            secondNum += inputValue;
+            buttonOutput.textContent += inputValue;
         return;
     }
 
@@ -68,17 +62,20 @@ function input(e) {
         && inputValue !='(-1)'
         && inputValue != '.'
         && inputValue != 'C'
-        && !(operatorAlreadyInput)) {
-        firstNum += inputValue;
-        outputText = inputValue;
-        buttonOutput.textContent += outputText;
+        && inputValue != 'AC'
+        && !(operatorAlreadyInput)
+        && !(internalTotal)) {
+            firstNum += inputValue;
+            buttonOutput.textContent += inputValue;
         return;
     }
     /* makes the number negative if you inputted the operator or the second number yet */
     if(inputValue === '(-1)'
         && !(operatorAlreadyInput)
         && secondNum === '') {
-            makeNegative();
+            firstNum = Number(firstNum) * -1
+            buttonOutput.textContent = firstNum;
+            printAndInitialization;
             return;
         }
     /* supposed to add a decimal to the first number if not already inputted to it */
@@ -87,11 +84,11 @@ function input(e) {
         && inputValue != '='
         && inputValue != '(-1)'
         && inputValue != 'C'
+        && inputValue != 'AC'
         && !(operatorAlreadyInput)
         && !(internalTotal)) {
-        firstNum += inputValue;
-        outputText = inputValue;
-        buttonOutput.textContent += outputText;
+            firstNum += inputValue;
+            buttonOutput.textContent += inputValue;
         return;
     }
 
@@ -101,12 +98,37 @@ function input(e) {
         && inputValue != '='
         && inputValue != '(-1)'
         && inputValue != 'C'
+        && inputValue != 'AC'
         && operatorAlreadyInput) {
             secondNum += inputValue;
-            outputText = inputValue;
-            buttonOutput.textContent += outputText;
+            buttonOutput.textContent += inputValue;
         }
+    
+    /* Clears the button output line and resets everything except for the first num to 0 */    
+    if(inputValue === 'C') {
+            operators[operatorUsed] = 0;
+            operatorAlreadyInput = false;
+            operatorUsed = '';
+            firstNum = internalTotal;
+            secondNum = ''
+            buttonOutput.textContent = firstNum;
+            return;
+    }
 
+    /* Clears all output fields, sets all variables back to their initial states */
+    if(inputValue ==='AC') {
+            operators[operatorUsed] = 0;
+            operatorAlreadyInput = false;
+            operatorUsed = '';
+            firstNum = '';
+            secondNum = ''
+            internalTotal = '';
+            buttonOutput.textContent = '';
+            runningTotal.textContent = '0';
+            return;
+    }
+    /* checks if either the first number is present and the operator hasn't been pressed yet
+        or if both numbers are present before evaluating the function */
     if((inputValue === '='
         && firstNum != ''
         && !(operatorAlreadyInput))
@@ -122,10 +144,12 @@ function input(e) {
 }
 
 function evaluate() {
+    /* Converts the numbers from string to number for the math to work right */
     firstNum = Number(firstNum);
     secondNum = Number(secondNum);
+    /* Stores the inputted operator into the variable */
     if (operatorAlreadyInput) {
-        operatorUsed = Object.keys(operators).filter(key => operators[key] === 1)[0];
+            operatorUsed = Object.keys(operators).filter(key => operators[key] === 1)[0];
     }
     switch(operatorUsed){
         case "+":
@@ -150,7 +174,8 @@ function evaluate() {
             break;
     }
 }
-
+/* Prints the total rounded to three decimals to the output fields, also resets variables
+    so that only the firstNum is already filled */
 function printAndInitialization() {
     runningTotal.textContent = Math.round(internalTotal*1000) / 1000;
     buttonOutput.textContent = Math.round(internalTotal*1000) / 1000;
